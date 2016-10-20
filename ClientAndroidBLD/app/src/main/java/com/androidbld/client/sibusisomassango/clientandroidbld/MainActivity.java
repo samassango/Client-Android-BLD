@@ -11,6 +11,7 @@ import com.androidbld.client.sibusisomassango.clientandroidbld.connectionDAO.Cli
 public class MainActivity extends AppCompatActivity {
     private Button btnConnectToServer;
     private TextView serverResults;
+    //Client client = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +23,26 @@ public class MainActivity extends AppCompatActivity {
         //button to connect to the server.
         btnConnectToServer = (Button) findViewById(R.id.btnConnectToServer);
 
+
+
         btnConnectToServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Client client = new Client("196.37.22.179",9011,serverResults);
 
-                new Client("196.37.22.179",9011,serverResults).execute();
+//                String data = "<request>\n" +
+//                        "    <EventType>Authentication</EventType>\n" +
+//                        "    <event>\n" +
+//                        "        <UserPin>12345</UserPin>\n" +
+//                        "        <DeviceId>12345</DeviceId>\n" +
+//                        "        <DeviceSer>ABCDE</DeviceSer>\n" +
+//                        "        <DeviceVer>ABCDE</DeviceVer>\n" +
+//                        "        <TransType>Users</TransType>\n" +
+//                        "    </event>\n" +
+//                        "</request>";
+//
+//                client.saveToFile(data);
+                client.execute();
             }
         });
     }
