@@ -5,6 +5,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -30,9 +34,19 @@ public class Client extends AsyncTask<Void, Void, Void> {
     String response = "";
     TextView serverResponse;
 
+
+
     String serResponse = null;
     String fileName ="message.xml" ;
+    String responseFileName = "response.xml";
+    private XmlPullParserFactory xmlFactoryObject;
     String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/client/" ;
+    public String getResponse(){
+        return this.response;
+    }
+    public void setResponse(String response){
+        this.response = response;
+    }
 
     public Client(String address, int port,TextView serverResponse) {
         serverAddress = address;
@@ -49,7 +63,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
                 "    </event>\n" +
                 "</request>";
 
-      saveToFile(data);
+      saveToFile(data,fileName);
     }
     @Override
     protected Void doInBackground(Void... params) {
@@ -87,12 +101,28 @@ public class Client extends AsyncTask<Void, Void, Void> {
             //Wait for server response
             BufferedReader serverReader = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
-
             while ((serResponse = serverReader.readLine()) != null) {
+                setResponse(serResponse);
+                saveToFile(serResponse,responseFileName);
                 Log.d("Server Response: " , serResponse);
                 response = serResponse;
 
             }
+
+
+            try {
+                xmlFactoryObject = XmlPullParserFactory.newInstance();
+
+                XmlPullParser myparser = xmlFactoryObject.newPullParser();
+
+                myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                myparser.setInput(socket.getInputStream(), null);
+
+                parseXMLAndStoreIt(myparser);
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,14 +132,86 @@ public class Client extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    public void readFile(String fileName){
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(path+fileName));
+            String line;
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while((line = reader.readLine())!=null){
+                stringBuilder.append(line);
+            }
+            serverResponse.setText(stringBuilder);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void parseXMLAndStoreIt(XmlPullParser myParser) {
+        int event;
+        String text=null;
+
+        try {
+            event = myParser.getEventType();
+
+            while (event != XmlPullParser.END_DOCUMENT) {
+                String name=myParser.getName();
+
+                switch (event){
+                    case XmlPullParser.START_TAG:
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        text = myParser.getText();
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        Log.d("Results >>>1",name);
+//                        if(name.equals("country")){
+//                            country = text;
+//                        }
+//
+//                        else if(name.equals("humidity")){
+//                            humidity = myParser.getAttributeValue(null,"value");
+//                        }
+//
+//                        else if(name.equals("pressure")){
+//                            pressure = myParser.getAttributeValue(null,"value");
+//                        }
+//
+//                        else if(name.equals("temperature")){
+//                            temperature = myParser.getAttributeValue(null,"value");
+//                        }
+//
+//                        else{
+//                        }
+                        break;
+                }
+                event = myParser.next();
+            }
+            //parsingComplete = false;
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     protected void onPostExecute(Void aVoid) {
         Log.d("RESULTS",response);
-        serverResponse.setText(serResponse);
+        serverResponse.setText(getResponse());
         super.onPostExecute(aVoid);
     }
 
-    public boolean saveToFile( String data){
+    public boolean saveToFile( String data,String fileName){
         try {
             new File(path  ).mkdir();
             File file = new File(path+ fileName);

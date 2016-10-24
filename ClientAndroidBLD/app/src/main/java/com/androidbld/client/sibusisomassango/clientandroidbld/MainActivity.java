@@ -30,19 +30,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Client client = new Client("196.37.22.179",9011,serverResults);
 
-//                String data = "<request>\n" +
-//                        "    <EventType>Authentication</EventType>\n" +
-//                        "    <event>\n" +
-//                        "        <UserPin>12345</UserPin>\n" +
-//                        "        <DeviceId>12345</DeviceId>\n" +
-//                        "        <DeviceSer>ABCDE</DeviceSer>\n" +
-//                        "        <DeviceVer>ABCDE</DeviceVer>\n" +
-//                        "        <TransType>Users</TransType>\n" +
-//                        "    </event>\n" +
-//                        "</request>";
-//
-//                client.saveToFile(data);
                 client.execute();
+
+                client.readFile("response.xml");
             }
         });
     }
