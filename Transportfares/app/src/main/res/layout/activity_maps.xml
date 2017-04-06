@@ -5,4 +5,60 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.androidbld.client.sibusisomassango.transportfares.MapsActivity" />
+    tools:context="com.androidbld.client.sibusisomassango.transportfares.MapsActivity" >
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:gravity="right"
+       android:paddingBottom="0dp">
+       <Button
+           android:id="@+id/btnRestaurant2"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Nearby Restaurants"
+           android:padding="3dp"
+           android:layout_weight="2"
+           android:background="@drawable/round_button"
+           android:drawableRight="@android:drawable/ic_menu_search"/>
+
+       <Button android:id="@+id/btnHospital2"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Nearby Hospitals"
+           android:layout_weight="2"
+           android:padding="3dp"
+           android:drawableRight="@android:drawable/ic_menu_search"
+           android:background="@drawable/round_button"/>
+       <Button
+           android:id="@+id/btnSchool2"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Nearby Schools"
+           android:padding="3dp"
+           android:layout_weight="2"
+           android:radius="20dp"
+           android:background="@drawable/round_button"
+           android:drawableRight="@android:drawable/ic_menu_search"/>
+   </LinearLayout>
+
+</fragment>
+
+    <!--<FrameLayout xmlns:android2="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android2:layout_width="match_parent"-->
+<!--android2:layout_height="match_parent"-->
+<!--xmlns:android="https://schemas.android.com/apk/res/android">-->
+
+<!--<fragment-->
+    <!--xmlns:android="https://schemas.android.com/apk/res/android"-->
+    <!--xmlns:map="https://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="https://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android2:id="@+id/map"-->
+    <!--android2:name="com.google.android.gms.maps.SupportMapFragment"-->
+    <!--android2:layout_width="wrap_content"-->
+    <!--android2:layout_height="wrap_content" />-->
+
+<!--</FrameLayout>-->

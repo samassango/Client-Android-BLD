@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:id="@+id/btnRestaurant"
+        android:title="Nearby Restaurant"/>
+    <item  android:id="@+id/btnHospital"
+        android:title="Nearby Hospitals"/>
+    <item  android:id="@+id/btnSchool"
+        android:title="Nearby Schools"/>
+</menu>
